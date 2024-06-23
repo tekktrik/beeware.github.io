@@ -1,0 +1,18 @@
+_model: page
+---
+sort_key: 5
+---
+title: Open Issues
+---
+summary: Open issues across all the sub-projects
+---
+body:
+{% for project, issues in projects.items() -%}
+{{ project }}
+{% for character in range(project|length) -%}-{%- endfor %}
+
+{% for issue in issues -%}
+* `{{ issue.title }} <{{ issue.url }}>`_ {% for label in issue.labels %}({{ label }}) {% endfor %}
+{% endfor %}
+
+{% endfor %}

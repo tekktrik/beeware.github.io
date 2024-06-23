@@ -1,0 +1,37 @@
+# Type queries here, and you will see intelligent autosuggestions
+# aware of GitHub's current GraphQL schema, equipped with live
+# syntax and validation errors highlighted within the text. We'll
+# get you started with a simple query showing your username!
+
+query {
+  organization (login: "beeware") {
+    repository (name: "{{ repo_name }}") {
+      name,
+      issues (
+        first: 100,
+        orderBy: {
+          field: CREATED_AT,
+          direction: DESC
+        }
+        after: {{ after_cursor }},
+        filterBy: {states: OPEN}
+      ) {
+        nodes {
+          title
+          url
+          labels (
+            first: 25
+          ) { 
+            nodes {
+              name
+            }
+          }
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+      }
+    }
+  }
+}
