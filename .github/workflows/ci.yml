@@ -25,6 +25,9 @@ jobs:
       - name: Clean
         run : |
           lektor clean -O output --yes
+      - name: Generate open issues content
+        run: |
+          python content/contributing/open-issues/open_issues.py
       - name: Build site
         run: |
           lektor build --prune -O output
