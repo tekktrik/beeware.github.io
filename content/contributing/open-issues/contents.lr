@@ -1,4 +1,4 @@
-_model: page
+_model: page-jinja
 ---
 sort_key: 5
 ---
@@ -10,11 +10,12 @@ hide_from_index: yes
 ---
 body:
 {% for project, issues in projects.items() -%}
-{{ project }}
-{% for character in range(project|length) -%}-{%- endfor %}
+<h2>{{ project }}</h2>
 
+<ul>
 {% for issue in issues -%}
-* `{{ issue.title }} <{{ issue.url }}>`_ {% for label in issue.labels %}({{ label }}) {% endfor %}
-{% endfor %}
+<li class="{% for label in issue.labels %}{{ label }} {% endfor %}"><a href="{{ issue.url }}">{{ issue.title }}</a> {% for label in issue.labels %}({{ label }}) {% endfor %}</li>
+{% endfor -%}
+</ul>
 
 {% endfor %}
