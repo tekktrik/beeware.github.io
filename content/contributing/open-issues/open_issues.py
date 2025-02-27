@@ -23,6 +23,8 @@ REPO_NAMES = [
     "toga",
 ]
 
+ALL_LABELS = set()
+
 # Some other helpful globals to make life easier
 GRAPHQL_URL = "https://api.github.com/graphql"
 GRAPHQL_TEMPATE = "content/contributing/open-issues/issues_query.txt"
@@ -76,6 +78,7 @@ for repo_name in REPO_NAMES:
         # Create an issue dict for with the title, URL, and list of label names for each issue, and add it to the repo's issue list
         repo_details = json.loads(resp.content)["data"]["organization"]["repository"]
         for issue_node in repo_details["issues"]["nodes"]:
+            ALL_LABELS = ALL_LABELS.union([label["name"] for label in issue_node["labels"]["nodes"]])
             issue = {
                 "title": issue_node["title"].replace("`", "\\`"),
                 "url": issue_node["url"],
@@ -97,7 +100,9 @@ for repo_name in REPO_NAMES:
     projects[repo_name] = all_issues
 
 # Render the lektor content tempate with the newly projects' issues information
-new_lektor_text = lektor_template.render(projects=projects)
+ALL_LABELS_LIST = list(ALL_LABELS)
+ALL_LABELS_LIST.sort()
+new_lektor_text = lektor_template.render(projects=projects, labels=ALL_LABELS_LIST)
 
 # Save the now populated template text back to the lektor content file
 with open(LEKTOR_TEMPLATE, mode="w", encoding="utf-8") as lektorfile:

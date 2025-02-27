@@ -9,6 +9,16 @@ summary: Open issues across all the sub-projects
 hide_from_index: yes
 ---
 body:
+<h3>Show issues labelled as:</h3>
+<div class="dropdown">
+    <select class="btn btn-secondary">
+        <option value="show all">Show all issues</option>
+        {% for label in labels %}
+        <option value="{{ label }}">{{ label }}</option>
+        {% endfor %}
+    </select>
+</div>
+
 {% for project, issues in projects.items() -%}
 <h2>{{ project }}</h2>
 
