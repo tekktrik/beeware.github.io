@@ -6,6 +6,8 @@ title: Open Issues
 ---
 summary: Open issues across all the sub-projects
 ---
+hide_from_index: yes
+---
 body:
 {% for project, issues in projects.items() -%}
 {{ project }}

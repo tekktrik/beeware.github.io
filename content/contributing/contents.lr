@@ -38,6 +38,13 @@ relatively simple introductions to the project, and the BeeWare team
 will mentor any first time contributor in committing a patch for
 one of these issues.
 
+`Open Issues`_
+---------------
+
+You can see a list of open issues across the project `here </contributing/open-issues/>`__.
+
+.. _Open Issues: /contributing/open-issues/
+
 Platform Usage
 ---------------
 
@@ -102,6 +109,7 @@ skills, feedback and bug reports. The BeeWare community acknowledges that all
 contributions are important - not just the ones that come as a pull request on GitHub.
 
 * `First Time Contributors  </contributing/first-time/>`__
+* `Open Issues </contributing/open-issues/>`__
 * `Development Process </contributing/process/>`__
 * `Translations </contributing/translations/>`__
 * `Challenge Coins </contributing/challenge-coins/>`__
