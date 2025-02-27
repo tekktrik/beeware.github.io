@@ -6,6 +6,13 @@ title: Open Issues
 ---
 summary: Open issues across all the sub-projects
 ---
+extra_head:
+<style>
+    .badge-issue-label, #label-select {
+        background-color: rgb(61, 107, 221)
+    }
+</style>
+---
 extra_script:
 <script>
     $( "#label-select" ).on( "change", function() {
@@ -38,7 +45,7 @@ body:
 
 <ul>
 {% for issue in issues -%}
-<li class="issue-item {% for label in issue.labels %}{{ label | replace(" ", "-")}} {% endfor %}"><a href="{{ issue.url }}">{{ issue.title }}</a> {% for label in issue.labels %}<span class="badge badge-pill badge-secondary">{{ label }}</span> {% endfor %}</li>
+<li class="issue-item {% for label in issue.labels %}{{ label | replace(" ", "-")}} {% endfor %}"><a href="{{ issue.url }}">{{ issue.title }}</a> {% for label in issue.labels %}<span class="badge badge-pill badge-issue-label">{{ label }}</span> {% endfor %}</li>
 {% endfor -%}
 </ul>
 
