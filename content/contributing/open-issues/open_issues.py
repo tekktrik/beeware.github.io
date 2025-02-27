@@ -18,7 +18,7 @@ import requests
 # These are the only repositories that get queried
 REPO_NAMES = [
     "beeware",
-    "beeware.github.io"
+    "beeware.github.io",
     "briefcase",
     "toga",
 ]
