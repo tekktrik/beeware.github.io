@@ -34,10 +34,18 @@ body:
 <div class="dropdown">
     <select id="label-select" class="btn btn-secondary">
         <option value="show all">Show all issues</option>
-        {% for label in labels %}
+        {% for label in labels -%}
+        {%- if label != "good first issue" -%}
         <option value="{{ label | replace(" ", "-") }}">{{ label }}</option>
-        {% endfor %}
+        {% endif -%}
+        {%- endfor %}
     </select>
+</div>
+<div class="issue-checkbox">
+    <input class="form-check-input" id="good-first-issue-select" type="checkbox" value="">
+    <label class="form-check-label" for="good-first-issue-select">
+        Show only "good first issues"
+    </label>
 </div>
 
 {% for project, issues in projects.items() -%}
