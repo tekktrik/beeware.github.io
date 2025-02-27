@@ -6,12 +6,23 @@ title: Open Issues
 ---
 summary: Open issues across all the sub-projects
 ---
+extra_head:
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(" #label-select" ).on( "change", function() {
+        let label_class = this.value;
+        console.log(label_class)
+        $(".issue").hide();
+        $(".issue").not().show();
+    } );
+</script>
+---
 hide_from_index: yes
 ---
 body:
 <h3>Show issues labelled as:</h3>
 <div class="dropdown">
-    <select class="btn btn-secondary">
+    <select id="label-select" class="btn btn-secondary">
         <option value="show all">Show all issues</option>
         {% for label in labels %}
         <option value="{{ label }}">{{ label }}</option>
@@ -24,7 +35,7 @@ body:
 
 <ul>
 {% for issue in issues -%}
-<li class="{% for label in issue.labels %}{{ label }} {% endfor %}"><a href="{{ issue.url }}">{{ issue.title }}</a> {% for label in issue.labels %}<span class="badge badge-pill badge-secondary">{{ label }}</span> {% endfor %}</li>
+<li class="issue {% for label in issue.labels %}{{ label }} {% endfor %}"><a href="{{ issue.url }}">{{ issue.title }}</a> {% for label in issue.labels %}<span class="badge badge-pill badge-secondary">{{ label }}</span> {% endfor %}</li>
 {% endfor -%}
 </ul>
 
