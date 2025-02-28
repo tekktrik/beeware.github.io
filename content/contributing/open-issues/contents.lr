@@ -15,14 +15,24 @@ extra_head:
 ---
 extra_script:
 <script>
-    $( "#label-select" ).on( "change", function() {
-        let label_class = "." + this.value;
-        if (label_class === ".show all") {
+    // Trigger on dropdown or checkbox change
+    $( "#label-select, #good-first-issue-select" ).on( "change", function() {
+        // Get the label class to filter
+        let label_class = "." + $( "#label-select" ).value;
+
+        // If "Show All" is selected, show all issues
+        if (label_class === ".show-all") {
             $(".issue-item").show();
         }
+        // Otherwise filter by the selected label
         else {
             $(".issue-item").hide();
             $(".issue-item").filter(label_class).show();
+        }
+
+        // Further filter by "good first issue" if selected
+        if ( $( "#label-select" ).value ) {
+            $(".issue-item").filter(".good-first-issue").show();
         }
     } );
 </script>
@@ -33,7 +43,7 @@ body:
 <h3>Show issues labelled as:</h3>
 <div class="dropdown">
     <select id="label-select" class="btn btn-secondary">
-        <option value="show all">Show all issues</option>
+        <option value="show-all">Show all issues</option>
         {% for label in labels -%}
         {%- if label != "good first issue" -%}
         <option value="{{ label | replace(" ", "-") }}">{{ label }}</option>
