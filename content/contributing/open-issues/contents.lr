@@ -18,44 +18,53 @@ extra_script:
     // Trigger on dropdown or checkbox change
     $( "#label-select, #good-first-issue-select" ).on( "change", function() {
         // Get the label class to filter
-        let label_class = "." + $( "#label-select" ).value;
+        let label_class = "." + $( "#label-select" ).val()
 
-        // If "Show All" is selected, show all issues
-        if (label_class === ".show-all") {
-            $(".issue-item").show();
-        }
-        // Otherwise filter by the selected label
-        else {
-            $(".issue-item").hide();
-            $(".issue-item").filter(label_class).show();
+        // Hide all the issues to start
+        $(".issue-item").hide();
+
+        // Select all issues as candidates by default
+        var to_show = $(".issue-item");
+
+        // If "Show All" is not selected, select only requested label
+        if (label_class !== ".show-all") {
+            to_show = to_show.filter(label_class);
         }
 
-        // Further filter by "good first issue" if selected
-        if ( $( "#label-select" ).value ) {
-            $(".issue-item").filter(".good-first-issue").show();
+        // Filter by good first issues as well if requested
+        if ( $( "#good-first-issue-select:checked" ).val() === "gfi") {
+            to_show = to_show.filter(".good-first-issue");
         }
+
+        // Show the selected issues
+        to_show.show();
     } );
 </script>
 ---
 hide_from_index: yes
 ---
 body:
-<h3>Show issues labelled as:</h3>
-<div class="dropdown">
-    <select id="label-select" class="btn btn-secondary">
-        <option value="show-all">Show all issues</option>
-        {% for label in labels -%}
-        {%- if label != "good first issue" -%}
-        <option value="{{ label | replace(" ", "-") }}">{{ label }}</option>
-        {% endif -%}
-        {%- endfor %}
-    </select>
-</div>
-<div class="issue-checkbox">
-    <input class="form-check-input" id="good-first-issue-select" type="checkbox" value="">
-    <label class="form-check-label" for="good-first-issue-select">
-        Show only "good first issues"
-    </label>
+<h3>Show issues labeled as:</h3>
+<div class="container">
+    <form>
+        <div>
+            <select class="form-select btn btn-primary" id="label-select">
+                <option value="show-all">Show all issues</option>
+                {% for label in labels -%}
+                {%- if label != "good first issue" -%}
+                <option value="{{ label | replace(" ", "-") }}">{{ label }}</option>
+                {% endif -%}
+                {%- endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="form-check issue-checkbox">
+            <input class="form-check-input" id="good-first-issue-select" type="checkbox" value="gfi">
+            <label class="form-check-label" for="good-first-issue-select">
+                Show only "good first issues"
+            </label>
+        </div>
+    </form>
 </div>
 
 {% for project, issues in projects.items() -%}
