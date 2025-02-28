@@ -23,6 +23,7 @@ REPO_NAMES = [
     "toga",
 ]
 
+# Keep a collection of all labels encountered
 ALL_LABELS = set()
 
 # Some other helpful globals to make life easier
