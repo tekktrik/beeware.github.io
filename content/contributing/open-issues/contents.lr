@@ -16,29 +16,38 @@ extra_head:
 extra_script:
 <script>
     // Trigger on dropdown or checkbox change
-    $( "#label-select, #good-first-issue-select" ).on( "change", function() {
+    function issueFilter() {
+            
         // Get the label class to filter
-        let label_class = "." + $( "#label-select" ).val()
+        let label_class = document.getElementById("label-select").value;
 
         // Hide all the issues to start
-        $(".issue-item").hide();
-
-        // Select all issues as candidates by default
-        var to_show = $(".issue-item");
+        var to_show = Array.from(document.querySelectorAll(".issue-item"));
+        to_show.forEach(issue => {
+            issue.hidden = true;
+        });
 
         // If "Show All" is not selected, select only requested label
         if (label_class !== ".show-all") {
-            to_show = to_show.filter(label_class);
+            to_show = to_show.filter(issue => {return issue.classList.contains(label_class)});
         }
 
         // Filter by good first issues as well if requested
-        if ( $( "#good-first-issue-select:checked" ).val() === "gfi") {
-            to_show = to_show.filter(".good-first-issue");
+        if (document.getElementById("good-first-issue-select").checked) {
+            to_show = to_show.filter(issue => {return issue.classList.contains("good-first-issue")});
         }
 
         // Show the selected issues
-        to_show.show();
-    } );
+        to_show.forEach(issue => {
+            issue.hidden = false;
+        })
+    }
+
+    // Add the function as an event listener to the form elements
+    document.querySelectorAll(".filter-trigger").forEach(element => {
+        element.addEventListener("change", issueFilter);
+    })
+
 </script>
 ---
 hide_from_index: yes
@@ -47,14 +56,14 @@ body:
 <div class="container">
     <form>
         <div class="form-check issue-checkbox">
-            <input class="form-check-input" id="good-first-issue-select" type="checkbox" value="gfi">
+            <input class="form-check-input filter-trigger" id="good-first-issue-select" type="checkbox" value="gfi">
             <label class="form-check-label" for="good-first-issue-select">
-                Show only "good first issues"
+                Show only "Good First Issues"
             </label>
         </div>
         <h3>Show issues labeled as:</h3>
         <div>
-            <select class="form-select btn btn-primary btn-large" id="label-select">
+            <select class="form-select btn btn-primary btn-large filter-trigger" id="label-select">
                 <option value="show-all">Show all issues</option>
                 {% for label in labels -%}
                 {%- if label != "good first issue" -%}
