@@ -21,14 +21,12 @@ extra_script:
         // Get the label class to filter
         let label_class = document.getElementById("label-select").value;
 
-        // Hide all the issues to start
-        var to_show = Array.from(document.querySelectorAll(".issue-item"));
-        to_show.forEach(issue => {
-            issue.hidden = true;
-        });
-
-        // If "Show All" is not selected, select only requested label
-        if (label_class !== ".show-all") {
+        // Get all the issues and make a copy to edit
+        let all_issues = Array.from(document.querySelectorAll(".issue-item"));
+        var to_show = all_issues.slice();
+        
+        // Select only requested label
+        if (label_class !== "show-all") {
             to_show = to_show.filter(issue => {return issue.classList.contains(label_class)});
         }
 
@@ -37,9 +35,10 @@ extra_script:
             to_show = to_show.filter(issue => {return issue.classList.contains("good-first-issue")});
         }
 
-        // Show the selected issues
-        to_show.forEach(issue => {
-            issue.hidden = false;
+        // Show only the selected issues
+        all_issues.forEach(issue => {
+            let display_state = to_show.includes(issue);
+            issue.hidden = !display_state;
         })
     }
 
