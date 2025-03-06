@@ -8,7 +8,7 @@ summary: Open issues across all the sub-projects
 ---
 extra_head:
 <style>
-    .badge-issue-label, #label-select {
+    .badge-issue-label {
         background-color: rgb(61, 107, 221)
     }
 </style>
@@ -44,11 +44,17 @@ extra_script:
 hide_from_index: yes
 ---
 body:
-<h3>Show issues labeled as:</h3>
 <div class="container">
     <form>
+        <div class="form-check issue-checkbox">
+            <input class="form-check-input" id="good-first-issue-select" type="checkbox" value="gfi">
+            <label class="form-check-label" for="good-first-issue-select">
+                Show only "good first issues"
+            </label>
+        </div>
+        <h3>Show issues labeled as:</h3>
         <div>
-            <select class="form-select btn btn-primary" id="label-select">
+            <select class="form-select btn btn-primary btn-large" id="label-select">
                 <option value="show-all">Show all issues</option>
                 {% for label in labels -%}
                 {%- if label != "good first issue" -%}
@@ -56,13 +62,6 @@ body:
                 {% endif -%}
                 {%- endfor %}
             </select>
-        </div>
-        <br>
-        <div class="form-check issue-checkbox">
-            <input class="form-check-input" id="good-first-issue-select" type="checkbox" value="gfi">
-            <label class="form-check-label" for="good-first-issue-select">
-                Show only "good first issues"
-            </label>
         </div>
     </form>
 </div>
